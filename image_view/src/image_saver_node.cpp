@@ -81,13 +81,13 @@ ImageSaverNode::ImageSaverNode(const rclcpp::NodeOptions & options)
   cam_sub_ = image_transport::create_camera_subscription(
     this, topic, std::bind(
       &ImageSaverNode::callbackWithCameraInfo, this, std::placeholders::_1, std::placeholders::_2),
-    "raw");
+    "raw", rmw_qos_profile_sensor_data);
 
   // Useful when CameraInfo is not being published
   image_sub_ = image_transport::create_subscription(
     this, topic, std::bind(
       &ImageSaverNode::callbackWithoutCameraInfo, this, std::placeholders::_1),
-    "raw");
+    "raw", rmw_qos_profile_sensor_data);
 
   std::string format_string;
   format_string = this->declare_parameter("filename_format", std::string("left%04i.%s"));
